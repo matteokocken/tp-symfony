@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello 4</title>
+</head>
+<body>
+    <h1>Bienvenue {{ prenom }}</h1>
+    <p>
+        Mes jeux préférés sont&nbsp;:
+        <table>
+
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set i = 1 %}
+                {% for jeu in jeux %}
+                <tr>
+                    <td>
+                        {{ i }}
+                    </td>
+                    <td>
+                        {{ jeu }}
+                    </td>
+                    {% set i = i+1 %}
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+    </p>
+</body>
+</html>
