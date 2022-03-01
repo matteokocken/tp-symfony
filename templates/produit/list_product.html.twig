@@ -1,0 +1,10 @@
+
+<body>
+    <ul>
+        {% for msg in app.session.flashBag.get('info') %}
+        <li>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Page : {{ id_page }}</h2>
+    {{ dump() }}
+</body>

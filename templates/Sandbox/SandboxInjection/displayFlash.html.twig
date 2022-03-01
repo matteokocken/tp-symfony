@@ -1,0 +1,7 @@
+<h2>type "info"</h2>
+
+<ul>
+    {% for msg in app.session.flashBag.get('error') %}
+    <li>{{ msg }}</li>
+    {% endfor %}
+</ul>

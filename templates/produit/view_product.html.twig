@@ -1,0 +1,7 @@
+<ul>
+    {% for msg in app.session.flashBag.get('info') %}
+    <li>{{ msg }}</li>
+    {% endfor %}
+</ul>
+
+{{ dump() }}
