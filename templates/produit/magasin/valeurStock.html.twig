@@ -1,5 +1,28 @@
 <body>
 <h2>Valeur totale du magasin : {{
     valeur_totale
-}}</h2>
+}}
+{{dump()}}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom Produit</th>
+                <th>Quantité</th>
+                <th>Prix Unitaire</th>
+                <th>Valeur Totale</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in liste %}
+                <tr>
+                    <td>{{item.product_name}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.prix_unit}}</td>
+                    <td>{{item.quantity * item.prix_unit}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</h2>
 </body>
