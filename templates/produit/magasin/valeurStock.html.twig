@@ -1,4 +1,7 @@
-<body>
+
+{% extends '/Layouts/layout.html.twig' %}
+
+{% block body %}
 <h2>Valeur totale du magasin : {{
     valeur_totale
 }}
@@ -25,4 +28,5 @@
         </tbody>
     </table>
 </h2>
-</body>
+
+{% endblock %}

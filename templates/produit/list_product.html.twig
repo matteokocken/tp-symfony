@@ -1,10 +1,33 @@
 
-<body>
-    <ul>
-        {% for msg in app.session.flashBag.get('info') %}
-        <li>{{ msg }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Page : {{ id_page }}</h2>
+{% extends '/Layouts/layout.html.twig' %}
+
+{% block body %}
+<ul>
+    {% for msg in app.session.flashBag.get('info') %}
+    <li>{{ msg }}</li>
+    {% endfor %}
+</ul>
     {{ dump() }}
-</body>
+<h2>Page : {{ id_page }}</h2>
+
+{% set urlAddProduit = path('produit_generate') %}
+<a href={{ urlAddProduit }}>Ajouter Produit</a>
+<table>
+    <thead>
+        <tr>
+            <th>Dénomination</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in products %}
+            <tr>
+                {% set urlView = path('produit_view', {id: produit.id}) %}
+                {% set urlDelete = path('produit_delete', {id: produit.id}) %}
+                <td>{{ produit.denomination }}</td>
+                <td><a href="{{ urlView }}">Voir</a></td>
+                <td><a href="{{ urlDelete }}">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

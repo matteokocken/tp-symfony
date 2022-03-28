@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Sandbox{% endblock %}</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+{% for msg in app.session.flashBag.get('info') %}
+    <li>{{ msg }}</li>
+{% endfor %}
+<div id="vue">
+    {% block content  %}{% endblock %}
+
+</div>
+<div id="footer">
+    {% include 'Sandbox/Layout/footer.html.twig' %}
+</div>
+</body>
+</html>
+

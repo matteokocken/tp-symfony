@@ -2,8 +2,13 @@
 
 namespace App\Controller\Produit;
 
+use App\Entity\Manuel;
+use App\Entity\Produit;
+use Doctrine\Persistence\ManagerRegistry;
+use MongoDB\Driver\Manager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/produit', name: "produit")]
@@ -20,44 +25,18 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute('produit_list', $args);
     }
 
-    #[Route('/list/{id}', 
+    #[Route('/list/{id}',
     name: '_list',
     requirements: ["id" => "\d+"],
     defaults: ["id" => "0"],
     )]
-    public function listAction($id): Response
+    public function listAction(int $id, ManagerRegistry $doctrine): Response
     {
-        $args = 
-            array(
-            "id_page" => $id,
-            "products" => array([
-                "id" => 15,
-                "denomination" => "Produit nom",
-                "code" => "1234",
-                "date_creation" => "12/01/2022",
-                "actif" => "1",
-                "descriptif" => "Description du produit",
-                "id_manuel" => 1541,
-            ],
-            [
-                "id" => 457,
-                "denomination" => "Produit nom 2",
-                "code" => "5745",
-                "date_creation" => "20/12/2021",
-                "actif" => "1",
-                "descriptif" => "Description du produit",
-                "id_manuel" => 1541,
-            ],
-            [
-                "id" => 35,
-                "denomination" => "Produit nom 3",
-                "code" => "575",
-                "date_creation" => "07/11/2022",
-                "actif" => "0",
-                "descriptif" => "Description du produit",
-                "id_manuel" => 1541,
-            ])
-            );
+        $em = $doctrine->getManager();
+
+        $produits = $em->getRepository('App:Produit')->findAll();
+
+        $args = array('products' => $produits, 'id_page' => $id);
 
         return $this->render('produit/list_product.html.twig', $args);
     }
@@ -66,17 +45,13 @@ class ProduitController extends AbstractController
     name: "_view",
     requirements: ["id" => "[1-9][0-9]{0,}"],
     )]
-    public function viewAction(int $id): Response
+    public function viewAction(int $id, ManagerRegistry $doctrine): Response
     {
-        $args = [
-            "id" => 35,
-            "denomination" => "Produit nom 3",
-            "code" => "575",
-            "date_creation" => "07/11/2022",
-            "actif" => "0",
-            "descriptif" => "Description du produit",
-            "id_manuel" => 1541,
-        ];
+        $em = $doctrine->getManager();
+
+        $produit = $em->getRepository('App:Produit')->find($id);
+
+        $args = array('produit' => $produit);
 
         return $this->render('produit/view_product.html.twig', $args);
     }
@@ -102,8 +77,21 @@ class ProduitController extends AbstractController
     #[Route('/delete/{id}', name: "_delete",
     requirements: ["id" => "[1-9][0-9]{0,}"]
     )]
-    public function deleteAction(int $id): Response
+    public function deleteAction(int $id, ManagerRegistry $doctrine): Response
     {
+        $em = $doctrine->getManager();
+
+        $produitRepo = $em->getRepository('App:Produit');
+        $produit = $produitRepo->find($id);
+
+        if(is_null($produit)) {
+            $this->addFlash('info', 'Erreur lors de la suppression du produit');
+            throw new NotFoundHttpException("film->id = " . $id . ' incorrect');
+        }
+
+        $em->remove($produit);
+        $em->flush();
+
         $this->addFlash('info', 'Produit supprimé avec succès');
         return $this->redirectToRoute('produit_list');
     }
@@ -122,4 +110,58 @@ class ProduitController extends AbstractController
         $args = array("id" => 3);
         return $this->redirectToRoute('produit_view', $args);
     }
+
+    #[Route('/generate', name: "_generate")]
+    public function generateAction(ManagerRegistry $doctrine)
+    {
+        $em = $doctrine->getManager();
+
+        $produit1 = new Produit();
+        $produit1->setDenomination("Chaise")
+            ->setCode('12325454545454')
+            ->setDateCreation(new \DateTime("now"))
+            ->setActif(1)
+            ->setDescriptif("Chaise de bureau")
+        ;
+        $produit2 = new Produit();
+        $produit2->setDenomination("Table")
+            ->setCode('4564856454564654')
+            ->setDateCreation(new \DateTime("now"))
+            ->setActif(1)
+            ->setDescriptif("Table de salon")
+        ;
+        $produit3 = new Produit();
+        $produit3->setDenomination("Bureau")
+            ->setCode('8898522411155')
+            ->setDateCreation(new \DateTime("now"))
+            ->setActif(0)
+            ->setDescriptif("Bureau de travail")
+        ;
+        $produit4 = new Produit();
+        $produit4->setDenomination("Télévision")
+            ->setCode('854895641285')
+            ->setDateCreation(new \DateTime("now"))
+            ->setActif(1)
+            ->setDescriptif("Télévision 4K")
+        ;
+
+        $manuel1 = new Manuel();
+        $manuel1->setUrl("/manuel/television_4k")
+            ->setSommaire("Tutoriel pour installer la télévision");
+
+        $manuel2 = new Manuel();
+        $manuel2->setUrl("/manuel/chaise")
+            ->setSommaire("Tutoriel pour monter la chaise ");
+
+        $em->persist($produit1);
+        $em->persist($produit2);
+        $em->persist($produit3);
+        $em->persist($produit4);
+        $em->persist($manuel1);
+        $em->persist($manuel2);
+        $em->flush();
+
+        return $this->redirectToRoute('produit_list');
+    }
+
 }

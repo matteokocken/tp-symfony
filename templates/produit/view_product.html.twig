@@ -1,7 +1,22 @@
+
+{% extends '/Layouts/layout.html.twig' %}
+
+{% block body %}
 <ul>
     {% for msg in app.session.flashBag.get('info') %}
     <li>{{ msg }}</li>
     {% endfor %}
 </ul>
+{{dump()}}
+{% set urlList = path('produit_list', {id: 0}) %}
 
-{{ dump() }}
+<a href={{ urlList }}>Retour à la liste des produits</a>
+<h2>{{ produit.denomination }}</h2>
+
+<div>ID : {{ produit.id }}</div>
+<div>Code Barre : {{ produit.code }}</div>
+<div>Date : {{ produit.dateCreation|date() }}</div>
+<div>Actif : {{ produit.actif? 'Oui': 'Non' }}</div>
+<div>Descripif : {{ produit.descriptif }}</div>
+
+{% endblock %}

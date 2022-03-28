@@ -1,0 +1,26 @@
+{% block vue %}
+<p><a href="{{ path('sandbox_doctrine_list') }}">Retour vers la liste complète</a>.</p>
+
+{{ dump(film) }}
+
+<h2>Film</h2>
+
+{% if film is null %}
+<p>Le film n'existe pas</p>
+{% else %}
+<table>
+    <tr><th>id</th><td>{{ film.id }}</td></tr>
+    <tr><th>nom</th><td>{{ film.nom }}</td></tr>
+    <tr><th>ann´ee</th><td>{{ film.annee }}</td></tr>
+    <tr><th>en stock</th><td>{{ film.enstock ? 'oui' : 'non' }}</td></tr>
+    <tr><th>prix</th><td>{{ film.prix }} euros</td></tr>
+    <tr><th>quantité</th><td>{{ film.quantite is null ? 'non renseigné' : film.quantite }}</td></tr>
+</table>
+{% endif %}
+
+<h2>Critiques</h2>
+<ul>{% for critique in film.critiques %}
+<li>{{ critique.note }} : {{ critique.avis }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

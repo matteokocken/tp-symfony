@@ -33,5 +33,12 @@ class MagasinController extends AbstractController
         $args = array("valeur_totale" => 48400, "liste" => $liste);
         return $this->render('produit/magasin/valeurStock.html.twig', $args);
     }
+    public function menuAction(): Response
+    {
+        $args = array('items' => array(
+            "Accueil", "Lien 1", "Lien 2"
+        ));
+        return $this->render('Layouts/menu.html.twig', $args);
+    }
 
 }

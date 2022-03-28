@@ -1,0 +1,28 @@
+{% extends 'Sandbox/Layout/layout4.html.twig' %}
+
+{% block content %}
+    {% set listPath = path('sandbox_doctrine_list') %}
+    <a href={{ listPath }}>Liste des films</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Année</th>
+            <th>En stock</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ film.id }}</td>
+            <td>{{ film.nom }}</td>
+            <td>{{ film.annee }}</td>
+            <td>{{ film.enStock == 1? 'Oui': 'Non' }}</td>
+            <td>{{ film.prix }}</td>
+            <td>{{ film.quantite }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

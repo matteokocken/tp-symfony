@@ -1,0 +1,15 @@
+{%  extends 'Sandbox/Layout/layout4.html.twig' %}
+
+{% block content %}
+    <ul>
+        {% for film in films %}
+            <li>
+                {% set urlView = path('sandbox_doctrine_view', {'id': film.id}) %}
+                {% set urlDelete = path('sandbox_doctrine_delete', {'id': film.id}) %}
+                {{ film.id }}: {{ film.nom }}
+                <a href="{{ urlView }}">Voir</a>
+                <a href="{{ urlDelete }}">Supprimer</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
