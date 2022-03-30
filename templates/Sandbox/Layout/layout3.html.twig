@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Sandbox{% endblock %}</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <div id="menu">
+        {{ render(controller('App\\Controller\\Sandbox\\SandboxTwigController::menuAction')) }}
+    </div>
+    <div id="vue">
+
+    </div>
+    <div id="footer">
+        {% include 'Sandbox/Layout/footer.html.twig' %}
+    </div>
+</body>
+</html>
+

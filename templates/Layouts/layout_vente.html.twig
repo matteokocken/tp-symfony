@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Vente{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <!-- ici le bloc css -->
+    {% block css %}
+        <link href="default.css" rel="stylesheet">
+    {% endblock %}
+    <!-- ici le bloc javascript -->
+    {% block javascript %}
+    <script src='global.js'></script>
+    <script src='macros.js'></script>
+    {% endblock %}
+</head>
+<body>
+    <div>{% include '/Layouts/messageFlash.html.twig' %}</div>
+
+    {% include 'Layout/header.html.twig' %}
+    
+
+    <div>
+        {{ render(controller('App\\Controller\\Produit\\MagasinController::menuAction')) }}
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'Layout/footer.html.twig' %}
+    
+</body>
+</html>

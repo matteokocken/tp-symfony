@@ -1,0 +1,28 @@
+
+
+{{prenom}}
+{{dump()}}
+<ul>
+{% for nom, mention in tableau.mentions %}
+    <li>{{mention.nom|upper}} ({{nom}})</li>
+{% endfor %}
+</ul>
+
+
+<ul>
+{% for ue in tableau.ues %}
+
+    <li>{{ loop.index }}. {{ue.nom ~ ' : ' ~ ue.volume}}</li>
+
+{% endfor %}
+</ul>
+
+
+{% set ville = 'Poitiers' %}
+<p>{{ 'il est %d à %s' | format(3, ville) }}</p>
+
+{{dump(app.session)}}
+app.request : {{ dump(app.request) }}
+app.environment : {{ dump(app.environment) }}
+app.debug : {{ dump(app.debug) }}
+app.user : {{ dump(app.user) }}

@@ -1,0 +1,18 @@
+{{ form_start(myform) }}
+
+{{ form_errors(myform) }}
+
+{{ form_row(myform.nom) }}
+
+<div>
+    {{ form_label(myform.annee) }}
+    {{ form_errors(myform.annee) }}
+    {{ form_widget(myform.annee) }}
+</div>
+
+{{ form_rest(myform) }}
+{{ form_end(myform) }}
+
+
+
+
