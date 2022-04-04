@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name:"ts_produit"),
@@ -29,9 +31,14 @@ class Produit
     #[ORM\Column(type: 'text')]
     private $descriptif;
 
+    #[ORM\ManyToMany(targetEntity: Pays::class, inversedBy: 'produits')]
+    private $pays;
+
+
     public function __construct()
     {
         $this->actif = 0;
+        $this->pays = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,4 +106,27 @@ class Produit
         return $this;
     }
 
+    /**
+     * @return Collection<int, Pays>
+     */
+    public function getPays(): Collection
+    {
+        return $this->pays;
+    }
+
+    public function addPay(Pays $pay): self
+    {
+        if (!$this->pays->contains($pay)) {
+            $this->pays[] = $pay;
+        }
+
+        return $this;
+    }
+
+    public function removePay(Pays $pay): self
+    {
+        $this->pays->removeElement($pay);
+
+        return $this;
+    }
 }

@@ -51,7 +51,11 @@ class ProduitController extends AbstractController
 
         $produit = $em->getRepository('App:Produit')->find($id);
 
-        $args = array('produit' => $produit);
+        // if not(manuel) return []
+        $manuel = $em->getRepository('App:Manuel')->findOneBy(array('produit' => $produit));
+
+
+        $args = array('produit' => $produit, 'manuel' => $manuel);
 
         return $this->render('produit/view_product.html.twig', $args);
     }
@@ -147,11 +151,13 @@ class ProduitController extends AbstractController
 
         $manuel1 = new Manuel();
         $manuel1->setUrl("/manuel/television_4k")
-            ->setSommaire("Tutoriel pour installer la télévision");
+            ->setSommaire("Tutoriel pour installer la télévision")
+            ->setProduit($produit1);
 
         $manuel2 = new Manuel();
         $manuel2->setUrl("/manuel/chaise")
-            ->setSommaire("Tutoriel pour monter la chaise ");
+            ->setSommaire("Tutoriel pour monter la chaise ")
+            ->setProduit($produit2);
 
         $em->persist($produit1);
         $em->persist($produit2);

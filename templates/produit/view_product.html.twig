@@ -19,4 +19,8 @@
 <div>Actif : {{ produit.actif? 'Oui': 'Non' }}</div>
 <div>Descripif : {{ produit.descriptif }}</div>
 
+{% if manuel %}
+    <h3>Manuel</h3>
+    <a href={{ manuel.url }}>{{ manuel.sommaire }}</a>
+{% endif %}
 {% endblock %}

@@ -20,6 +20,10 @@ class Manuel
     #[ORM\Column(type: 'text', nullable: true)]
     private $sommaire;
 
+    #[ORM\OneToOne(targetEntity: Produit::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $produit;
+
     public function __construct() {
         $this->sommaire = NULL;
     }
@@ -49,6 +53,18 @@ class Manuel
     public function setSommaire(?string $sommaire): self
     {
         $this->sommaire = $sommaire;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(Produit $produit): self
+    {
+        $this->produit = $produit;
 
         return $this;
     }

@@ -1,0 +1,11 @@
+{% extends '/Layouts/layout.html.twig' %}
+{% block body %}
+    <h1>Ajouter un pays</h1>
+    <ul>
+        {% for msg in app.session.flashBag.get('info') %}
+            <li>{{ msg }}</li>
+        {% endfor %}
+    </ul>
+    {{ form(myform) }}
+
+{% endblock %}
